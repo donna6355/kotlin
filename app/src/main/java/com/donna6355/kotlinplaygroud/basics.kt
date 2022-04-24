@@ -90,6 +90,24 @@ fun main(){
         z++
     }while (z<=10)
     println("\ndo while is done")
+
+    for(num in 1..10){
+        print(num)
+    }
+
+    for(i in 1 until 10){// Same as - for(i in 1.until(10))
+        print(i)
+    }
+    for(i in 10 downTo  1 step 2){
+        if(i == 4) continue //skip the code and jump to next var
+        print("#$i")
+
+    }
+    println("\n same as above")
+    for(i in 10.downTo(1).step(2)){
+        if(i == 8) break //terminate the loop fun!
+        print("#$i")
+    }
 //    Arithmetic operators (+, -, *, /, %)
 //    Assignment operators (+=, -=, *=, /=, %=)
 //    Comparison operators (==, !=, <, >, <=, >=)
