@@ -31,6 +31,51 @@ fun main(){
     // This is a comment. Comments start with //
     // val is used for variables which are immutable (not changable)
 
+    //create a variable for testing all condition
+        val age = 17
+    //create a variable for drinkingAge
+        val drinkingAge = 21
+    //create a variable for votingAge
+        val votingAge = 18
+    //create a variable for drivingAge
+        val drivingAge = 16
+
+    if (age >=drinkingAge){
+        println("Now you may drink in the US")
+    }else if(age >=votingAge){
+        println("You may vote now")
+    }else if (age>=drivingAge){
+        println("You may drive now")
+    }else{
+        println("You are too young")
+    }
+
+    var month:Any = 14
+    when(month){
+        in 3..5 -> println("spring")
+        in 6..8 -> println("summer")
+        in 11 downTo 9 -> println("autumn")
+        12,1, 2 -> println("winter")
+        !in 1..12 -> println("APOCALYPSE")
+        is Double ->println("IMPOSSIBLE") // to check type or value!
+        else -> println("ERROR")
+    }
+
+    when(age){
+        // with the !in it's the same as saying not in ...
+        !in 0..20  -> print("now you may drink in the US")
+        in 18..20  -> print("now you may vote")
+        16,17 -> print("you now may drive")
+        else -> print("you're too young")
+    }
+
+    var x : Any = 13.37
+    when(x) {
+        is Int -> println("$x is an Int")
+        !is Double -> println("$x is not Double")
+        is String -> println("$x is a String")
+        else -> println("$x is none of the above")
+    }
 //    Arithmetic operators (+, -, *, /, %)
 //    Assignment operators (+=, -=, *=, /=, %=)
 //    Comparison operators (==, !=, <, >, <=, >=)
