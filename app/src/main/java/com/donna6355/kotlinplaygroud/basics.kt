@@ -76,6 +76,20 @@ fun main(){
         is String -> println("$x is a String")
         else -> println("$x is none of the above")
     }
+
+    var y = 100
+    while (y >= 10){
+        print(y)
+        y -=10
+    }
+    println("\nwhile is done")
+
+    var z = 12
+    do{
+        print(z)
+        z++
+    }while (z<=10)
+    println("\ndo while is done")
 //    Arithmetic operators (+, -, *, /, %)
 //    Assignment operators (+=, -=, *=, /=, %=)
 //    Comparison operators (==, !=, <, >, <=, >=)
