@@ -1,29 +1,29 @@
 package com.donna6355.kotlinplaygroud
 
-fun main(){
+fun main() {
     var myName = "Isaac" //mutable
     val greeting = "Hi," //immutable
     myName = "Mir"
     println("$greeting $myName")
 
     //defalut number will be Int and double. other case u gotta explicitly indicate the types
-    val one:Int = 1 // Int
-    val threeBillion:Long = 3000000000 // Long
-    val hundred:Short = 327
+    val one: Int = 1 // Int
+    val threeBillion: Long = 3000000000 // Long
+    val hundred: Short = 327
     val oneByte: Byte = 1
 
-    val myFloat:Float = 23.12F
-    val myDouble:Double = 2.2348173984719837498729384
+    val myFloat: Float = 23.12F
+    val myDouble: Double = 2.2348173984719837498729384
 
-    var isSunny:Boolean = false
+    var isSunny: Boolean = false
     isSunny = true
 
     // char is limited to assign only one character
-    val letterChar:Char = 'A'
+    val letterChar: Char = 'A'
 
-    val myString:String = "hello"
+    val myString: String = "hello"
     var firstCharacter = myString[0]
-    var lastCharacter = myString[myString.length-1]
+    var lastCharacter = myString[myString.length - 1]
     println(firstCharacter)
     println(lastCharacter)
 
@@ -32,45 +32,45 @@ fun main(){
     // val is used for variables which are immutable (not changable)
 
     //create a variable for testing all condition
-        val age = 17
+    val age = 17
     //create a variable for drinkingAge
-        val drinkingAge = 21
+    val drinkingAge = 21
     //create a variable for votingAge
-        val votingAge = 18
+    val votingAge = 18
     //create a variable for drivingAge
-        val drivingAge = 16
+    val drivingAge = 16
 
-    if (age >=drinkingAge){
+    if (age >= drinkingAge) {
         println("Now you may drink in the US")
-    }else if(age >=votingAge){
+    } else if (age >= votingAge) {
         println("You may vote now")
-    }else if (age>=drivingAge){
+    } else if (age >= drivingAge) {
         println("You may drive now")
-    }else{
+    } else {
         println("You are too young")
     }
 
-    var month:Any = 14
-    when(month){
+    var month: Any = 14
+    when (month) {
         in 3..5 -> println("spring")
         in 6..8 -> println("summer")
         in 11 downTo 9 -> println("autumn")
-        12,1, 2 -> println("winter")
+        12, 1, 2 -> println("winter")
         !in 1..12 -> println("APOCALYPSE")
-        is Double ->println("IMPOSSIBLE") // to check type or value!
+        is Double -> println("IMPOSSIBLE") // to check type or value!
         else -> println("ERROR")
     }
 
-    when(age){
+    when (age) {
         // with the !in it's the same as saying not in ...
-        !in 0..20  -> print("now you may drink in the US")
-        in 18..20  -> print("now you may vote")
-        16,17 -> print("you now may drive")
+        !in 0..20 -> print("now you may drink in the US")
+        in 18..20 -> print("now you may vote")
+        16, 17 -> print("you now may drive")
         else -> print("you're too young")
     }
 
-    var x : Any = 13.37
-    when(x) {
+    var x: Any = 13.37
+    when (x) {
         is Int -> println("$x is an Int")
         !is Double -> println("$x is not Double")
         is String -> println("$x is a String")
@@ -78,34 +78,34 @@ fun main(){
     }
 
     var y = 100
-    while (y >= 10){
+    while (y >= 10) {
         print(y)
-        y -=10
+        y -= 10
     }
     println("\nwhile is done")
 
     var z = 12
-    do{
+    do {
         print(z)
         z++
-    }while (z<=10)
+    } while (z <= 10)
     println("\ndo while is done")
 
-    for(num in 1..10){
+    for (num in 1..10) {
         print(num)
     }
 
-    for(i in 1 until 10){// Same as - for(i in 1.until(10))
+    for (i in 1 until 10) {// Same as - for(i in 1.until(10))
         print(i)
     }
-    for(i in 10 downTo  1 step 2){
-        if(i == 4) continue //skip the code and jump to next var
+    for (i in 10 downTo 1 step 2) {
+        if (i == 4) continue //skip the code and jump to next var
         print("#$i")
 
     }
     println("\n same as above")
-    for(i in 10.downTo(1).step(2)){
-        if(i == 8) break //terminate the loop fun!
+    for (i in 10.downTo(1).step(2)) {
+        if (i == 8) break //terminate the loop fun!
         print("#$i")
     }
 //    Arithmetic operators (+, -, *, /, %)
