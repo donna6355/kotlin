@@ -31,6 +31,11 @@ fun main(){
     // This is a comment. Comments start with //
     // val is used for variables which are immutable (not changable)
 
+//    Arithmetic operators (+, -, *, /, %)
+//    Assignment operators (+=, -=, *=, /=, %=)
+//    Comparison operators (==, !=, <, >, <=, >=)
+//    Increment & Decrement operators (++, --)
+
 
 // code from Udemy
 //    val myName = "Denis"
