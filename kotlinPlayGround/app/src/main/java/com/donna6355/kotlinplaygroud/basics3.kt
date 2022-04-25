@@ -14,6 +14,8 @@ fun main() {
 
     var s20: MobilePhone = MobilePhone("Android", "Samsun", "Galaxy S20 Ultra")
 
+    s20.chargeBattery(30)
+
     var myCar = Car()
     println(myCar.myBrand)
     myCar.maxSpeed = 0
@@ -45,8 +47,15 @@ class Person(firstName: String = "John", lastName: String = "Doe") {
 }
 
 class MobilePhone(osName: String, brand: String, model: String) {
+    var battery: Int = 23
+
     init {
         println("mobilePhone created, osName=$osName, brand=$brand, model=$model")
+    }
+
+    fun chargeBattery(added:Int) {
+        println("this phone has $battery% power initially and is charging $added. therefore it will have ${battery+added}")
+        battery += added
     }
 }
 
