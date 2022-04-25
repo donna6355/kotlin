@@ -26,8 +26,8 @@ fun main() {
 //    val updatedUserName = updateUser.name
 
 
-    var audi = MyCar("A3","AUDI")
-    var tesla = ElectricCar("S300","TESLA",20.00)
+    var audi = MyCar("A3", "AUDI", 200.0)
+    var tesla = ElectricCar("S300", "TESLA", 250.0, 20.00)
 
     //Polymorphism
     //Polymorphism is a mechanism when a behavior can be implemented differently by many classes
@@ -36,17 +36,36 @@ fun main() {
 
     tesla.extendRange(5.0)
     tesla.drive()
+
+    tesla.brake()
+    audi.brake()
+}
+
+
+interface drivable {
+    val maxSpeed: Double
+    fun drive(): String
+    fun brake() {
+        println("The drivable is breaking")
+    }
+
 }
 
 //super class, parent class,base class
 //need 'open' to inherits, otherwise 'sealed' to block inherits
-open class MyCar(val name: String, val brand: String) {
+open class MyCar(val name: String, val brand: String, override val maxSpeed: Double) : drivable {
     open var range: Double = 0.0
 
     fun extendRange(amount: Double) {
         if (amount > 0) range += amount
     }
 
+    override fun drive() = "driving the interface drive"
+
+    //    same override
+//    override fun drive(): String {
+//        return "driving the interface drive"
+//    }
     open fun drive(distance: Double) {
         println("drove for $distance km")
     }
@@ -54,14 +73,20 @@ open class MyCar(val name: String, val brand: String) {
 }
 
 //sub class, child class, derived class
-class ElectricCar(name: String, brand: String, battery: Double) : MyCar(name, brand) {
+class ElectricCar(name: String, brand: String, maxSpeed: Double, battery: Double) :
+    MyCar(name, brand, maxSpeed) {
     override var range = battery * 6
 
     override fun drive(distance: Double) {
         println("drove for $distance km on Electricity")
     }
 
-    fun drive(){
-        println("drove for $range km on Electricity")
+    override fun drive(): String {
+        return "drove for $range km on Electricity"
+    }
+
+    override fun brake() {
+        super.brake()
+        println("brake inside of electic car")
     }
 }

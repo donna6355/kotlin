@@ -59,7 +59,7 @@ class MobilePhone(osName: String, brand: String, model: String) {
     }
 }
 
-class Car() {
+class Car(){
     lateinit var owner: String
 
     val myBrand: String = "BMW"
