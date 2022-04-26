@@ -39,6 +39,20 @@ fun main() {
 
     tesla.brake()
     audi.brake()
+
+
+    val human = Human("Denis", "German", 65.0, 23.5)
+    val elephant = Elephant("Rosy", "India", 520.4, 20.4)
+
+    human.run()
+    elephant.run()
+
+    human.breath()
+    elephant.breath()
+
+    //difference between interface vs abstract class
+    //abstract class has constructor, it holds state/field, class can inherits only one class
+    //interface has no constructor, it cannot hold state/field, class can inherits multiple interfaces
 }
 
 
@@ -88,5 +102,46 @@ class ElectricCar(name: String, brand: String, maxSpeed: Double, battery: Double
     override fun brake() {
         super.brake()
         println("brake inside of electic car")
+    }
+}
+
+//abstract class
+abstract class Mammal(
+    private val name: String,//concrete (non abstract) properties in this primary constructor
+    private val origin: String,
+    private val weight: Double
+) {
+    //abstract properties, methods MUST be overridden by subclass
+    abstract var maxSpeed: Double
+
+    abstract fun run()
+    abstract fun breath()
+
+    //concrete non abstract methods
+    fun displayDetails() {
+        println("Name: $name, Origin:$origin, Weight:$weight, MaxSpeed:$maxSpeed")
+    }
+
+}
+
+class Human(name: String, origin: String, weight: Double, override var maxSpeed: Double) :
+    Mammal(name, origin, weight) {
+    override fun run() {
+        println("Runs on two legs")
+    }
+
+    override fun breath() {
+        println("Breath through mouth or nose")
+    }
+}
+
+class Elephant(name: String, origin: String, weight: Double, override var maxSpeed: Double) :
+    Mammal(name, origin, weight) {
+    override fun run() {
+        println("Runs on four legs")
+    }
+
+    override fun breath() {
+        println("Breath through trunk")
     }
 }
