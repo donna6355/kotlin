@@ -53,6 +53,17 @@ fun main() {
     //difference between interface vs abstract class
     //abstract class has constructor, it holds state/field, class can inherits only one class
     //interface has no constructor, it cannot hold state/field, class can inherits multiple interfaces
+
+    //Typecasting
+    //explicit unsafe casting using as
+    val obj1: Any = "asdf"
+    val str1: String = obj1 as String
+
+    //explicit safe casting using as?
+    val obj2: Any = 1337
+//    val str2:String = obj2 as String //trigger error
+    val str3: String? = obj2 as? String //if it is not String, return null
+
 }
 
 
