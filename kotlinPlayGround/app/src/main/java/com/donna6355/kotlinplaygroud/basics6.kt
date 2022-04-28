@@ -22,7 +22,49 @@ fun main() {
     newDaysOfWeek[5] = "Friday"
 
     print(newDaysOfWeek.toSortedMap())
-    newDaysOfWeek.
+
+    //ArrayList
+    val arrayList = ArrayList<String>()
+    arrayList.add("One")
+    arrayList.add("Two")
+    println("\n.........print ArrayList.........")
+    for (i in arrayList) {
+        println(i)
+    }
+
+    val arraylist: ArrayList<String> = ArrayList<String>(5)
+    val list: MutableList<String> = mutableListOf<String>()
+
+    list.add("one")
+    list.add("two")
+
+    arraylist.addAll(list)
+    println("........print arraylist........")
+    val itr = arraylist.iterator()
+
+    while (itr.hasNext()) {
+        println(itr.next())
+    }
+    println("size of arrayList = ${arraylist.size}")
+
+    for (i in arraylist) {
+        println(i)
+    }
+    println("........arraylist.get(1)........")
+    println(arraylist.get(1)) // equivalent to arraylist[1]
+
+    val myArrayList: ArrayList<Double> = ArrayList()
+    myArrayList.add(13.212312)
+    myArrayList.add(23.151232)
+    myArrayList.add(32.651553)
+    myArrayList.add(16.223817)
+    myArrayList.add(18.523999)
+    var total = 0.0
+    for (i in myArrayList) {
+        total += i
+    }
+    var average = total / myArrayList.size
+    println("Average is " + average)
 }
 
 data class Fruit2(val name: String, val price: Double)
