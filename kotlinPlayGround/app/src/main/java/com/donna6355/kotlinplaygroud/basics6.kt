@@ -65,6 +65,18 @@ fun main() {
     }
     var average = total / myArrayList.size
     println("Average is " + average)
+
+    //lambda expression {parameters -> functionBody}
+    fun sumFn(a: Int, b: Int) {
+        val total = a + b
+        print(total)
+    }
+
+    val sum: (Int, Int) -> Int = { a: Int, b: Int -> a + b }
+    println(sum(10, 5))
+
+    val shorSum = { a: Int, b: Int -> println(a + b) }
+    sum(10, 5)
 }
 
 data class Fruit2(val name: String, val price: Double)
