@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bgColor"
     android:gravity="center_horizontal"
+    android:padding="16dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -13,9 +14,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="CACULATE YOUR"
+        android:text="CALCULATE YOUR"
         android:textColor="@color/textBlue"
         android:textSize="25sp"
         android:textStyle="bold"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="AGE"
+        android:background="@color/textBlue"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="IN MINUTES"
+        android:textColor="@color/textBlue"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/btnBgColor"
+        />
 
 </LinearLayout>
