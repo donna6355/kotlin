@@ -57,7 +57,7 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="1"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             android:text="@string/divide" />
 
     </LinearLayout>
@@ -103,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="1"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             android:text="*" />
 
     </LinearLayout>
@@ -149,7 +149,7 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="1"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             android:text="-" />
 
     </LinearLayout>
@@ -165,10 +165,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:onClick="onDigit"
             android:text="0" />
 
+        <Button
+            android:id="@+id/btnDecimal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:onClick="onDecimalPoint"
+            android:text="." />
         <Button
             android:id="@+id/btnClear"
             android:layout_width="0dp"
@@ -184,7 +192,7 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="1"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             android:text="+" />
 
     </LinearLayout>
@@ -201,7 +209,7 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="1"
-            android:onClick="onDigit"
+            android:onClick="onEqual"
             android:text="=" />
 
 
