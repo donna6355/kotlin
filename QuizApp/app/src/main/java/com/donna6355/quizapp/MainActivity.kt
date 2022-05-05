@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
             } else {
                 val intent: Intent = Intent(this, QuizQuestionsActivity::class.java)
+                intent.putExtra(Constants.USER_NAME,nameInput.text.toString())
+
                 startActivity(intent)
                 finish() // finish this activity and cannot come back here
             }

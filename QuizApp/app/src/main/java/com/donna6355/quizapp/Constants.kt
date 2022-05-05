@@ -1,6 +1,11 @@
 package com.donna6355.quizapp
 
 object Constants {
+    //convention to name constant value with Capital snake case
+    const val USER_NAME: String = "user_name"
+    const val TOTAL_QUESTIONS: String = "total_questions"
+    const val CORRECT_ANSWERS: String = "correct_answers"
+
     fun getQuestions(): ArrayList<Question> {
         val questionsList = ArrayList<Question>()
 
