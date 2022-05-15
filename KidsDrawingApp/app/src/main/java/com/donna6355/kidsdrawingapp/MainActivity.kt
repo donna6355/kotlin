@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -161,8 +162,24 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "cancel clicked", Toast.LENGTH_SHORT).show()
                 dialogInterface.dismiss()
             }
-        val alertDialog:AlertDialog = builder.create()
+        val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)//will not allow user to cancel when user clicks out side of dialog area
         alertDialog.show()
+    }
+
+    fun customDialogFunction() {
+        val customDialog = Dialog(this)
+        customDialog.setContentView(R.layout.custom_dialog)
+        customDialog.findViewById<Button>(R.id.btn_yes).setOnClickListener {
+            Toast.makeText(applicationContext, "YES clicked", Toast.LENGTH_SHORT).show()
+            customDialog.dismiss()
+        }
+        customDialog.findViewById<Button>(R.id.btn_no).setOnClickListener {
+            Toast.makeText(applicationContext, "NO clicked", Toast.LENGTH_SHORT).show()
+            customDialog.dismiss()
+        }
+        customDialog.show()
+
+
     }
 }
