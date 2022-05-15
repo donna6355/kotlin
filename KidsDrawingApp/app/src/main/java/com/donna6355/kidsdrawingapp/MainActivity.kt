@@ -3,6 +3,7 @@ package com.donna6355.kidsdrawingapp
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.media.Image
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import com.google.android.material.snackbar.Snackbar
@@ -31,30 +33,54 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    //multi[le permission requested
-    private val cameraAndLocationResultLauncher: ActivityResultLauncher<Array<String>> =
+    //multiple permission requested
+//    private val cameraAndLocationResultLauncher: ActivityResultLauncher<Array<String>> =
+//        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+//            permissions.entries.forEach {
+//                val permissionName = it.key
+//                val isGranted = it.value
+//                if (isGranted) {
+//                    if (permissionName == Manifest.permission.CAMERA) {
+//                        Toast.makeText(this, "permission granted for camera", Toast.LENGTH_SHORT)
+//                            .show()
+//                    } else {
+//                        Toast.makeText(this, "permission granted for location", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//                } else {
+//                    if (permissionName == Manifest.permission.CAMERA) {
+//                        Toast.makeText(this, "permission denied for camera", Toast.LENGTH_SHORT)
+//                            .show()
+//                    } else {
+//                        Toast.makeText(this, "permission denied for location", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//                }
+//            }
+//        }
+    private val requestPermission: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            permissions.entries.forEach {
+            for (it in permissions.entries) {
                 val permissionName = it.key
                 val isGranted = it.value
                 if (isGranted) {
-                    if (permissionName == Manifest.permission.CAMERA) {
-                        Toast.makeText(this, "permission granted for camera", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(this, "permission granted for location", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Permission granted now you can use the storage file",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    if (permissionName == Manifest.permission.CAMERA) {
-                        Toast.makeText(this, "permission denied for camera", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(this, "permission denied for location", Toast.LENGTH_SHORT)
-                            .show()
+                    if (permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
+
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Oops, you denied permission",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
+
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,26 +101,9 @@ class MainActivity : AppCompatActivity() {
         val ibBrush: ImageButton = findViewById(R.id.ib_brush)
         ibBrush.setOnClickListener { showBrushSizeDialog() }
 
-        //better to check os version and if it denied before
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
-                Manifest.permission.CAMERA
-            )
-        ) {
-//            Toast.makeText(
-//                this,
-//                "camera cannot be used as camera access is denied",
-//                Toast.LENGTH_SHORT
-//            ).show()
-            Snackbar.make(ibBrush, "test snackbar!", Snackbar.LENGTH_SHORT).show()
-        } else {
-//        cameraResultLauncher.launch(Manifest.permission.CAMERA)       //single permission
-            cameraAndLocationResultLauncher.launch(
-                arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            )
-        }
+        val ibGallery: ImageButton = findViewById(R.id.ib_gallery)
+        ibGallery.setOnClickListener { requestStoragePermission() }
+
 
     }
 
@@ -145,45 +154,100 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun alertDialogFunction() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Alert")
-            .setMessage("test alert dialog is working")
-            .setIcon(android.R.drawable.ic_dialog_info)
-            .setPositiveButton("yes") { dialogInterface, which ->
-                Toast.makeText(applicationContext, "yes clicked", Toast.LENGTH_SHORT).show()
-                dialogInterface.dismiss()
+    private fun showRationaleDialog(title: String, message: String) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
             }
-            .setNegativeButton("no") { dialogInterface, which ->
-                Toast.makeText(applicationContext, "no clicked", Toast.LENGTH_SHORT).show()
-                dialogInterface.dismiss()
-            }
-            .setNeutralButton("cancel") { dialogInterface, which ->
-                Toast.makeText(applicationContext, "cancel clicked", Toast.LENGTH_SHORT).show()
-                dialogInterface.dismiss()
-            }
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.setCancelable(false)//will not allow user to cancel when user clicks out side of dialog area
-        alertDialog.show()
+        builder.create().show()
+
     }
 
-    fun customDialogFunction() {
-        val customDialog = Dialog(this)
-        customDialog.setContentView(R.layout.custom_dialog)
-        customDialog.findViewById<Button>(R.id.btn_yes).setOnClickListener {
-            Toast.makeText(applicationContext, "YES clicked", Toast.LENGTH_SHORT).show()
-            customDialog.dismiss()
+    private fun requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        ) {
+            showRationaleDialog(
+                "Kids Drawing App",
+                "Kids Drawing App needs to access your external storage"
+            )
+
+        } else {
+            requestPermission.launch(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    //TODO writing external storage
+                )
+            )
         }
-        customDialog.findViewById<Button>(R.id.btn_no).setOnClickListener {
-            Toast.makeText(applicationContext, "NO clicked", Toast.LENGTH_SHORT).show()
-            customDialog.dismiss()
-        }
-        customDialog.show()
     }
 
-    fun customProgressDialog() {
-        val customProgressDialog = Dialog(this)
-        customProgressDialog.setContentView(R.layout.custom_progress_dialog)
-        customProgressDialog.show()
-    }
+//    fun initiatePermission(){
+//        //better to check os version and if it denied before
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+//                Manifest.permission.CAMERA
+//            )
+//        ) {
+////            Toast.makeText(
+////                this,
+////                "camera cannot be used as camera access is denied",
+////                Toast.LENGTH_SHORT
+////            ).show()
+//            Snackbar.make(ibBrush, "test snackbar!", Snackbar.LENGTH_SHORT).show()
+//        } else {
+////        cameraResultLauncher.launch(Manifest.permission.CAMERA)       //single permission
+//            cameraAndLocationResultLauncher.launch(
+//                arrayOf(
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.ACCESS_FINE_LOCATION
+//                )
+//            )
+//        }
+//    }
+//
+//    fun alertDialogFunction() {
+//        val builder = AlertDialog.Builder(this)
+//        builder.setTitle("Alert")
+//            .setMessage("test alert dialog is working")
+//            .setIcon(android.R.drawable.ic_dialog_info)
+//            .setPositiveButton("yes") { dialogInterface, which ->
+//                Toast.makeText(applicationContext, "yes clicked", Toast.LENGTH_SHORT).show()
+//                dialogInterface.dismiss()
+//            }
+//            .setNegativeButton("no") { dialogInterface, which ->
+//                Toast.makeText(applicationContext, "no clicked", Toast.LENGTH_SHORT).show()
+//                dialogInterface.dismiss()
+//            }
+//            .setNeutralButton("cancel") { dialogInterface, which ->
+//                Toast.makeText(applicationContext, "cancel clicked", Toast.LENGTH_SHORT).show()
+//                dialogInterface.dismiss()
+//            }
+//        val alertDialog: AlertDialog = builder.create()
+//        alertDialog.setCancelable(false)//will not allow user to cancel when user clicks out side of dialog area
+//        alertDialog.show()
+//    }
+//
+//    fun customDialogFunction() {
+//        val customDialog = Dialog(this)
+//        customDialog.setContentView(R.layout.custom_dialog)
+//        customDialog.findViewById<Button>(R.id.btn_yes).setOnClickListener {
+//            Toast.makeText(applicationContext, "YES clicked", Toast.LENGTH_SHORT).show()
+//            customDialog.dismiss()
+//        }
+//        customDialog.findViewById<Button>(R.id.btn_no).setOnClickListener {
+//            Toast.makeText(applicationContext, "NO clicked", Toast.LENGTH_SHORT).show()
+//            customDialog.dismiss()
+//        }
+//        customDialog.show()
+//    }
+//
+//    fun customProgressDialog() {
+//        val customProgressDialog = Dialog(this)
+//        customProgressDialog.setContentView(R.layout.custom_progress_dialog)
+//        customProgressDialog.show()
+//    }
 }
