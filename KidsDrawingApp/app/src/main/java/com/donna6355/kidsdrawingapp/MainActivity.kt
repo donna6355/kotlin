@@ -1,6 +1,7 @@
 package com.donna6355.kidsdrawingapp
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     private var drawingView: DrawingView? = null
@@ -77,11 +79,12 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.CAMERA
             )
         ) {
-            Toast.makeText(
-                this,
-                "camera cannot be used as camera access is denied",
-                Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                this,
+//                "camera cannot be used as camera access is denied",
+//                Toast.LENGTH_SHORT
+//            ).show()
+            Snackbar.make(ibBrush, "test snackbar!", Snackbar.LENGTH_SHORT).show()
         } else {
 //        cameraResultLauncher.launch(Manifest.permission.CAMERA)       //single permission
             cameraAndLocationResultLauncher.launch(
@@ -139,5 +142,27 @@ class MainActivity : AppCompatActivity() {
             mImageButtonCurrentPaint = view
         }
 
+    }
+
+    fun alertDialogFunction() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Alert")
+            .setMessage("test alert dialog is working")
+            .setIcon(android.R.drawable.ic_dialog_info)
+            .setPositiveButton("yes") { dialogInterface, which ->
+                Toast.makeText(applicationContext, "yes clicked", Toast.LENGTH_SHORT).show()
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton("no") { dialogInterface, which ->
+                Toast.makeText(applicationContext, "no clicked", Toast.LENGTH_SHORT).show()
+                dialogInterface.dismiss()
+            }
+            .setNeutralButton("cancel") { dialogInterface, which ->
+                Toast.makeText(applicationContext, "cancel clicked", Toast.LENGTH_SHORT).show()
+                dialogInterface.dismiss()
+            }
+        val alertDialog:AlertDialog = builder.create()
+        alertDialog.setCancelable(false)//will not allow user to cancel when user clicks out side of dialog area
+        alertDialog.show()
     }
 }
