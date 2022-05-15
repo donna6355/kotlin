@@ -2,6 +2,7 @@ package com.donna6355.kidsdrawingapp
 
 import android.Manifest
 import android.app.Dialog
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -71,14 +72,26 @@ class MainActivity : AppCompatActivity() {
         val ibBrush: ImageButton = findViewById(R.id.ib_brush)
         ibBrush.setOnClickListener { showBrushSizeDialog() }
 
-
-//        cameraResultLauncher.launch(Manifest.permission.CAMERA)       //single permission
-        cameraAndLocationResultLauncher.launch(
-            arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.ACCESS_FINE_LOCATION
+        //better to check os version and if it denied before
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+                Manifest.permission.CAMERA
             )
-        )
+        ) {
+            Toast.makeText(
+                this,
+                "camera cannot be used as camera access is denied",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+//        cameraResultLauncher.launch(Manifest.permission.CAMERA)       //single permission
+            cameraAndLocationResultLauncher.launch(
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            )
+        }
+
     }
 
     private fun showBrushSizeDialog() {
