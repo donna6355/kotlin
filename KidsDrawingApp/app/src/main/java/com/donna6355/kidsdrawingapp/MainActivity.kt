@@ -1,19 +1,58 @@
 package com.donna6355.kidsdrawingapp
 
+import android.Manifest
 import android.app.Dialog
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 
 class MainActivity : AppCompatActivity() {
     private var drawingView: DrawingView? = null
     private var mImageButtonCurrentPaint: ImageButton? = null
+
+    // single permission requested
+//    private val cameraResultLauncher: ActivityResultLauncher<String> =
+//    registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+//        if (isGranted) {
+//            Toast.makeText(this, "permission granted for camera", Toast.LENGTH_SHORT).show()
+//        } else {
+//            Toast.makeText(this, "permission denied for camera", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+
+    //multi[le permission requested
+    private val cameraAndLocationResultLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                val permissionName = it.key
+                val isGranted = it.value
+                if (isGranted) {
+                    if (permissionName == Manifest.permission.CAMERA) {
+                        Toast.makeText(this, "permission granted for camera", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Toast.makeText(this, "permission granted for location", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else {
+                    if (permissionName == Manifest.permission.CAMERA) {
+                        Toast.makeText(this, "permission denied for camera", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Toast.makeText(this, "permission denied for location", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +70,15 @@ class MainActivity : AppCompatActivity() {
 
         val ibBrush: ImageButton = findViewById(R.id.ib_brush)
         ibBrush.setOnClickListener { showBrushSizeDialog() }
+
+
+//        cameraResultLauncher.launch(Manifest.permission.CAMERA)       //single permission
+        cameraAndLocationResultLauncher.launch(
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
     }
 
     private fun showBrushSizeDialog() {
