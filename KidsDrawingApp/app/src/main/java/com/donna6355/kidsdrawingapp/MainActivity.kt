@@ -179,7 +179,11 @@ class MainActivity : AppCompatActivity() {
             customDialog.dismiss()
         }
         customDialog.show()
+    }
 
-
+    fun customProgressDialog() {
+        val customProgressDialog = Dialog(this)
+        customProgressDialog.setContentView(R.layout.custom_progress_dialog)
+        customProgressDialog.show()
     }
 }
