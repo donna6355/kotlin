@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -19,7 +20,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private var drawingView: DrawingView? = null
@@ -119,6 +128,16 @@ class MainActivity : AppCompatActivity() {
 
         val ibUndo: ImageButton = findViewById(R.id.ib_undo)
         ibUndo.setOnClickListener { drawingView?.onClickUndo() }
+
+        val ibSave: ImageButton = findViewById(R.id.ib_save)
+        ibSave.setOnClickListener {
+            if (isReadStorageAllowed()) {
+                lifecycleScope.launch {
+                    val flDrawingView: FrameLayout = findViewById(R.id.fl_drawing_view_container)
+                    saveBitmapFile(getBitmapFromView(flDrawingView))
+                }
+            }
+        }
     }
 
     private fun showBrushSizeDialog() {
@@ -179,6 +198,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun isReadStorageAllowed(): Boolean {
+        val result =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        return result == PackageManager.PERMISSION_GRANTED
+
+    }
+
     private fun requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this,
@@ -194,7 +220,7 @@ class MainActivity : AppCompatActivity() {
             requestPermission.launch(
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                    //TODO writing external storage
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             )
         }
@@ -211,6 +237,52 @@ class MainActivity : AppCompatActivity() {
         }
         view.draw(canvas)
         return returnedBitmap
+    }
+
+    private suspend fun saveBitmapFile(mBitmap: Bitmap?): String {
+        var result = ""
+        withContext(Dispatchers.IO) {
+            if (mBitmap != null) {
+                try {
+                    val bytes = ByteArrayOutputStream()
+                    mBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes)
+
+                    val f =
+                        File(
+                            externalCacheDir?.absoluteFile.toString()
+                                    + File.separator
+                                    + "KidDrawingApp_"
+                                    + System.currentTimeMillis() / 1000
+                                    + ".png"
+                        )
+                    val fo = FileOutputStream(f)
+                    fo.write(bytes.toByteArray())
+                    fo.close()
+
+                    result = f.absolutePath
+
+                    runOnUiThread {
+                        if (result.isNotEmpty()) {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "File saved successfully :$result",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Something went wrong while saving the file",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    result = ""
+                    e.printStackTrace()
+                }
+            }
+        }
+        return result
     }
 
 //    fun initiatePermission(){
